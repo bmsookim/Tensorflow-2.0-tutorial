@@ -1,4 +1,5 @@
 <p align="center"><img width="40%" src="./imgs/tensorflow_logo.png"></p>
+
 --------------------------------------------------------------------
 
 # Tensorflow-2.0-tutorial
