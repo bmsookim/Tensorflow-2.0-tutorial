@@ -2,8 +2,7 @@
 
 --------------------------------------------------------------------
 
-# Tensorflow-2.0-tutorial
-Tutorials for various CNN models in Tensorflow 2.0
+Tutorials for various CNN models in Tensorflow 2.0.
 
 # Table of Contents
 - [Week #1](./week1/README.md)
