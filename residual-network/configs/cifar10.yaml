@@ -5,16 +5,13 @@ DATASET:
     TEST_DIR : '/data/cifar10/test'
     IMG_SHAPE: [32, 32]
     IMG_CHANNELS: 3
+    MEAN: [0.4914, 0.4822, 0.4465]
+    STD: [0.2023, 0.1994, 0.2010]
 
 MODEL:
     NETWORK: 'RESNET'
     BLOCK_LAYER: ['BN', 'CONV', 'RELU']
     DEPTH: 50
-
-NORMALIZER:
-    MAX_VALUE: 255.0
-    MEAN: [0.4914, 0.4822, 0.4465]
-    STD: [0.2023, 0.1994, 0.2010]
 
 SOLVER:
     EPOCHS: 200

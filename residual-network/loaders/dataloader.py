@@ -16,6 +16,8 @@ class DataLoader:
         )
         self.CLASS_NAMES = os.listdir(cfg['DATASET']['TRAIN_DIR'])
         self.w, self.h = cfg['DATASET']['IMG_SHAPE']
+        self.mean = cfg['DATASET']['MEAN']
+        self.std = cfg['DATASET']['STD']
         self.labeled_ds = self.list_ds.map(self.process_path, num_parallel_calls=tf.data.experimental.AUTOTUNE)
         self.labeled_ds = self.labeled_ds.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
 
@@ -24,10 +26,18 @@ class DataLoader:
         parts = tf.strings.split(file_path, os.path.sep)[-2]
         return parts == self.CLASS_NAMES
 
+    def normalize_(self, x: tf.Tensor) -> tf.Tensor:
+        x -= self.mean
+        x /= self.std
+        return x
+
     def decode_img(self, img):
         img = tf.image.decode_jpeg(img, channels=3)
         img = tf.image.convert_image_dtype(img, tf.float32)
+
         # put augmentation here
+        img = self.normalize_(img)
+
         return tf.image.resize(img, [self.w, self.h])
 
     def process_path(self, file_path):
