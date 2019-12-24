@@ -18,11 +18,10 @@ def main():
             #print(tr_batches)
 
         model.fit_generator(train_data,
-                            epochs = cfg['SOLVER']['EPOCHS']), \
+                            epochs = cfg['SOLVER']['EPOCHS'],
                             validation_data = test_data,
                             validation_freq = 1,
-                            shuffle=True
-                            )
+                            shuffle=True)
 
 if __name__ == "__main__":
     main()

@@ -6,7 +6,7 @@ class BasicBlock(tf.keras.Model):
 
     def __init__(self, channel, stride=1, downsample=None):
         super(BasicBlock, self).__init__()
-        data_format, axis = 'channels_last', axis=3 # for Conv2D & BN
+        data_format, axis = 'channels_last', 3 # for Conv2D & BN
 
         self.conv1 = layers.Conv2D(channel, kernel_size=3, strides=stride, padding='same', use_bias=False, data_format=data_format)
         self.bn1 = layers.BatchNormalization(axis=axis)
@@ -37,7 +37,7 @@ class Bottleneck(tf.keras.Model):
 
     def __init__(self, channel, stride=1, downsample=None):
         super(Bottleneck, self).__init__()
-        data_format, axis = 'channels_last', axis=3 # for Conv2D & BN
+        data_format, axis = 'channels_last', 3 # for Conv2D & BN
 
         self.stride=stride
         self.conv1 = layers.Conv2D(channel, kernel_size=1, padding='same', use_bias=False, data_format=data_format)
@@ -98,14 +98,14 @@ class ResNet(tf.keras.Model):
             512 * block.expansion
         ]
 
-        self.init_params()
+        #self.init_params()
 
     def _make_layer(self, block, channel, blocks, stride=1):
         downsample=None
 
-        if stride != 1 or self.inplanes != channel * blcok.expansion:
+        if stride != 1 or self.inplanes != channel * block.expansion:
             downsample = tf.keras.Sequential()
-            downsample.add(layers.Conv2D(channel * blcok.expansion, kernel_size=1, strides=stride, use_bias=False, data_format=self.data_format))
+            downsample.add(layers.Conv2D(channel * block.expansion, kernel_size=1, strides=stride, use_bias=False, data_format=self.data_format))
             downsample.add(layers.BatchNormalization(axis=self.axis))
 
         layer = tf.keras.Sequential()
@@ -135,3 +135,8 @@ class ResNet(tf.keras.Model):
 def resnet18(pretrained=False):
     model = ResNet(BasicBlock, [2,2,2,2])
     return model
+
+def resnet(net_size):
+    if net_size == 18: return resnet18()
+    else:
+        raise NotImplementedError
